@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres
+    container_name: recipe_db
+    ports:
+      - 5432:5432
+    env_file:
+      - ./app.env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:
