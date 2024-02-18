@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -87,7 +88,7 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 		Subject:   "Your account verification code",
 	}
 
-	utils.SendEmail(&newUser, &emailData)
+	utils.SendEmail(&newUser, &emailData, "verificationCode.html")
 
 	message := "We sent an email with a verification code to " + newUser.Email
 	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "message": message})
@@ -162,4 +163,93 @@ func (ac *AuthController) SignInUser(ctx *gin.Context) {
 func (ac *AuthController) LogoutUser(ctx *gin.Context) {
 	ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
 	ctx.JSON(http.StatusOK, gin.H{"status": "success"})
+}
+
+// Forgot Password
+func (ac *AuthController) ForgotPassword(ctx *gin.Context) {
+	var payload *models.ForgotPasswordInput
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+	message := "You will receive a reset email if user with that email exist"
+
+	var user models.User
+	result := ac.DB.First(&user, "email = ?", strings.ToLower(payload.Email))
+	if result.Error != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Invalid email or Password"})
+		return
+	}
+
+	if !user.Verified {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "error", "message": "Account not verified"})
+		return
+	}
+
+	config, err := initializers.LoadConfig(".")
+	if err != nil {
+		log.Fatal("Could not load config", err)
+	}
+
+	// Generate Verification Code
+	resetToken := randstr.String(20)
+
+	passwordResetToken := utils.Encode(resetToken)
+	user.PasswordResetToken = passwordResetToken
+	user.PasswordResetAt = time.Now().Add(time.Minute * 15)
+	ac.DB.Save(&user)
+
+	var firstName = user.Name
+
+	if strings.Contains(firstName, " ") {
+		firstName = strings.Split(firstName, " ")[1]
+	}
+
+	// ? Send Email
+	emailData := utils.EmailData{
+		URL:       config.ClientOrigin + "/resetpassword/" + resetToken,
+		FirstName: firstName,
+		Subject:   "Your password reset token (valid for 10min)",
+	}
+
+	utils.SendEmail(&user, &emailData, "resetPassword.html")
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
+}
+
+// Reset Passsword
+func (ac *AuthController) ResetPassword(ctx *gin.Context) {
+	var payload *models.ResetPasswordInput
+	resetToken := ctx.Params.ByName("resetToken")
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+	if payload.Password != payload.PasswordConfirm {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Passwords do not match"})
+		return
+	}
+
+	hashedPassword, _ := utils.HashPassword(payload.Password)
+
+	passwordResetToken := utils.Encode(resetToken)
+
+	var updatedUser models.User
+	result := ac.DB.First(&updatedUser, "password_reset_token = ? AND password_reset_at > ?", passwordResetToken, time.Now())
+	if result.Error != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "The reset token is invalid or has expired"})
+		return
+	}
+
+	updatedUser.Password = hashedPassword
+	updatedUser.PasswordResetToken = ""
+	ac.DB.Save(&updatedUser)
+
+	ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": "Password data updated successfully"})
 }

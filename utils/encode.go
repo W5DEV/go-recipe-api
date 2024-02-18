@@ -15,4 +15,3 @@ func Decode(s string) (string, error) {
 
 	return string(data), nil
 }
-
