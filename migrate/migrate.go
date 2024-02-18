@@ -8,6 +8,7 @@ import (
 	"github.com/W5DEV/go-recipe-api/models"
 )
 
+
 func init() {
 	config, err := initializers.LoadConfig(".")
 	if err != nil {
