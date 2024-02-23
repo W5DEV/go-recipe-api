@@ -17,7 +17,8 @@ type Recipe struct {
 	Ingredients   datatypes.JSON    `json:"ingredients,omitempty"`
 	Instructions  datatypes.JSON    `json:"instructions,omitempty"`
 	Image         string            `json:"image,omitempty"`
-	User          uuid.UUID         `json:"user,omitempty"`
+	Inactive      bool              `json:"inactive,omitempty"`
+	Chef          string            `json:"chef,omitempty"`
 	CreatedAt     time.Time         `json:"created_at,omitempty"`
 	UpdatedAt     time.Time         `json:"updated_at,omitempty"`
 }
@@ -30,7 +31,8 @@ type CreateRecipeRequest struct {
 	Ingredients   datatypes.JSON    `json:"ingredients,omitempty"`
 	Instructions  datatypes.JSON    `json:"instructions,omitempty"`
 	Image         string            `json:"image,omitempty"`
-	User          string            `json:"user,omitempty"`
+	Inactive	  bool              `json:"inactive,omitempty"`
+	Chef          string            `json:"chef,omitempty"`
 	CreatedAt     time.Time         `json:"created_at,omitempty"`
 	UpdatedAt     time.Time         `json:"updated_at,omitempty"`
 }
@@ -43,7 +45,8 @@ type UpdateRecipe struct {
 	Ingredients   datatypes.JSON     `json:"ingredients,omitempty"`
 	Instructions  datatypes.JSON     `json:"instructions,omitempty"`
 	Image         string             `json:"image,omitempty"`
-	User          string             `json:"user,omitempty"`
+	Inactive      bool               `json:"inactive,omitempty"`
+	Chef           string            `json:"chef,omitempty"`
 	CreateAt      time.Time          `json:"created_at,omitempty"`
 	UpdatedAt     time.Time          `json:"updated_at,omitempty"`
 }
