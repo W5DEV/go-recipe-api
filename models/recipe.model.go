@@ -19,6 +19,7 @@ type Recipe struct {
 	Image         string            `json:"image,omitempty"`
 	Inactive      bool              `json:"inactive,omitempty"`
 	Chef          string            `json:"chef,omitempty"`
+	Tags		  datatypes.JSON    `json:"tags,omitempty"`
 	CreatedAt     time.Time         `json:"created_at,omitempty"`
 	UpdatedAt     time.Time         `json:"updated_at,omitempty"`
 }
@@ -33,6 +34,7 @@ type CreateRecipeRequest struct {
 	Image         string            `json:"image,omitempty"`
 	Inactive	  bool              `json:"inactive,omitempty"`
 	Chef          string            `json:"chef,omitempty"`
+	Tags		  datatypes.JSON    `json:"tags,omitempty"`
 	CreatedAt     time.Time         `json:"created_at,omitempty"`
 	UpdatedAt     time.Time         `json:"updated_at,omitempty"`
 }
@@ -46,7 +48,8 @@ type UpdateRecipe struct {
 	Instructions  datatypes.JSON     `json:"instructions,omitempty"`
 	Image         string             `json:"image,omitempty"`
 	Inactive      bool               `json:"inactive,omitempty"`
-	Chef           string            `json:"chef,omitempty"`
+	Chef          string             `json:"chef,omitempty"`
+	Tags	      datatypes.JSON     `json:"tags,omitempty"`
 	CreateAt      time.Time          `json:"created_at,omitempty"`
 	UpdatedAt     time.Time          `json:"updated_at,omitempty"`
 }

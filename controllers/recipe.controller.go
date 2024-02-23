@@ -37,6 +37,7 @@ func (pc *RecipeController) CreateRecipe(ctx *gin.Context) {
 		Image:         payload.Image,
 		Chef:          payload.Chef,
 		Inactive:	   payload.Inactive,
+		Tags: 		   payload.Tags,
 		CreatedAt:     now,
 		UpdatedAt:     now,
 	}
@@ -78,6 +79,7 @@ func (pc *RecipeController) UpdateRecipe(ctx *gin.Context) {
 		Image:         payload.Image,
 		Chef:          payload.Chef,
 		Inactive:	   payload.Inactive,
+		Tags: 		   payload.Tags,
 		CreatedAt:     now,
 		UpdatedAt:     now,
 	}
