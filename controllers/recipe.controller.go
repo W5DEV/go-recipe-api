@@ -21,7 +21,6 @@ func NewRecipeController(DB *gorm.DB) RecipeController {
 
 // Create Recipe Handler
 func (pc *RecipeController) CreateRecipe(ctx *gin.Context) {
-	currentUser := ctx.MustGet("currentUser").(models.User)
 	var payload *models.CreateRecipeRequest
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -32,11 +31,15 @@ func (pc *RecipeController) CreateRecipe(ctx *gin.Context) {
 	now := time.Now()
 	newRecipe := models.Recipe{
 		Title:         payload.Title,
+		Slug:          payload.Slug,
 		Description:   payload.Description,
+		Category:      payload.Category,
 		Ingredients:   payload.Ingredients,
 		Instructions:  payload.Instructions,
 		Image:         payload.Image,
-		User:          currentUser.ID,
+		Chef:          payload.Chef,
+		Inactive:	   payload.Inactive,
+		Tags: 		   payload.Tags,
 		CreatedAt:     now,
 		UpdatedAt:     now,
 	}
@@ -57,7 +60,6 @@ func (pc *RecipeController) CreateRecipe(ctx *gin.Context) {
 // Update Recipe Handler
 func (pc *RecipeController) UpdateRecipe(ctx *gin.Context) {
 	recipeId := ctx.Param("recipeId")
-	currentUser := ctx.MustGet("currentUser").(models.User)
 
 	var payload *models.UpdateRecipe
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -73,11 +75,15 @@ func (pc *RecipeController) UpdateRecipe(ctx *gin.Context) {
 	now := time.Now()
 	recipeToUpdate := models.Recipe{
 		Title:         payload.Title,
+		Slug:          payload.Slug,
 		Description:   payload.Description,
+		Category:      payload.Category,
 		Ingredients:   payload.Ingredients,
 		Instructions:  payload.Instructions,
 		Image:         payload.Image,
-		User:          currentUser.ID,
+		Chef:          payload.Chef,
+		Inactive:	   payload.Inactive,
+		Tags: 		   payload.Tags,
 		CreatedAt:     now,
 		UpdatedAt:     now,
 	}
