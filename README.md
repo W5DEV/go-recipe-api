@@ -1,11 +1,13 @@
 # go-recipe-api
 
+The go-recipe-api is the final form of my Online Cookbook Backend, built to be hosted on local hardware utilizing Docker. It is built using Go, Gin and Gorm.
+
 ## To-Do
 
-- [x] Build out API structure for users and recipes
-- [x] Add user authentication
-- [ ] Add final email handling
-- [ ] Deploy and host
+- [ ] Work out image handling function
+- [ ] Work out permanent email handling solution
+- [ ] Limit registrations to local (new users must verify before being able to login, which can only be done locally for now)
+- [ ] TBD
 
 ## Getting Started
 
