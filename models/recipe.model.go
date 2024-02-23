@@ -11,7 +11,9 @@ import (
 type Recipe struct {
 	ID            uuid.UUID         `gorm:"type:uuid;default:uuid_generate_v4();primary_key" json:"id,omitempty"`
 	Title         string            `gorm:"uniqueIndex;not null" json:"title,omitempty"`
+	Slug          string            `gorm:"uniqueIndex;not null" json:"slug,omitempty"`
 	Description   string            `json:"description,omitempty"`
+	Category      string            `json:"category,omitempty"`
 	Ingredients   datatypes.JSON    `json:"ingredients,omitempty"`
 	Instructions  datatypes.JSON    `json:"instructions,omitempty"`
 	Image         string            `json:"image,omitempty"`
@@ -22,7 +24,9 @@ type Recipe struct {
 
 type CreateRecipeRequest struct {
 	Title         string            `json:"title"  binding:"required"`
+	Slug          string            `json:"slug"  binding:"required"`
 	Description   string            `json:"description,omitempty"`
+	Category      string            `json:"category,omitempty"`
 	Ingredients   datatypes.JSON    `json:"ingredients,omitempty"`
 	Instructions  datatypes.JSON    `json:"instructions,omitempty"`
 	Image         string            `json:"image,omitempty"`
@@ -33,7 +37,9 @@ type CreateRecipeRequest struct {
 
 type UpdateRecipe struct {
 	Title         string             `json:"title,omitempty"`
+	Slug          string             `json:"slug,omitempty"`
 	Description   string             `json:"description,omitempty"`
+	Category      string             `json:"category,omitempty"`
 	Ingredients   datatypes.JSON     `json:"ingredients,omitempty"`
 	Instructions  datatypes.JSON     `json:"instructions,omitempty"`
 	Image         string             `json:"image,omitempty"`
