@@ -31,6 +31,7 @@ func (pc *RecipeController) CreateRecipe(ctx *gin.Context) {
 	now := time.Now()
 	newRecipe := models.Recipe{
 		Title:         payload.Title,
+		Slug:          payload.Slug,
 		Description:   payload.Description,
 		Ingredients:   payload.Ingredients,
 		Instructions:  payload.Instructions,
@@ -73,6 +74,7 @@ func (pc *RecipeController) UpdateRecipe(ctx *gin.Context) {
 	now := time.Now()
 	recipeToUpdate := models.Recipe{
 		Title:         payload.Title,
+		Slug:          payload.Slug,
 		Description:   payload.Description,
 		Ingredients:   payload.Ingredients,
 		Instructions:  payload.Instructions,
