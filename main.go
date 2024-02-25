@@ -51,8 +51,10 @@ func main() {
 	}
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:8000", config.ClientOrigin}
+	corsConfig.AllowOrigins = []string{"*"}
 	corsConfig.AllowCredentials = true
+	corsConfig.AddAllowHeaders("Authorization")
+
 
 	server.Use(cors.New(corsConfig))
 
