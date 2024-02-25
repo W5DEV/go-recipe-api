@@ -148,13 +148,13 @@ func (ac *AuthController) SignInUser(ctx *gin.Context) {
 	config, _ := initializers.LoadConfig(".")
 
 	// Generate Token
-	token, err := utils.GenerateToken(config.TokenExpiresIn, user.ID, config.TokenSecret)
+	token, err := utils.GenerateToken(config.TokenExpiresIn*24*30, user.ID, config.TokenSecret)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
-	ctx.SetCookie("token", token, config.TokenMaxAge*60, "/", "localhost", false, true)
+	ctx.SetCookie("User-Token", token, config.TokenMaxAge*60*24*30, "/", "greatidea.dev", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "token": token})
 }
