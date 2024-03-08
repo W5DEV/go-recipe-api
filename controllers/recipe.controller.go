@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -109,15 +108,10 @@ func (pc *RecipeController) FindRecipeById(ctx *gin.Context) {
 
 // Get All Recipe Handler
 func (pc *RecipeController) FindRecipes(ctx *gin.Context) {
-	var page = ctx.DefaultQuery("page", "1")
-	var limit = ctx.DefaultQuery("limit", "10")
 
-	intPage, _ := strconv.Atoi(page)
-	intLimit, _ := strconv.Atoi(limit)
-	offset := (intPage - 1) * intLimit
 
 	var recipes []models.Recipe
-	results := pc.DB.Limit(intLimit).Offset(offset).Find(&recipes)
+	results := pc.DB.Find(&recipes)
 	if results.Error != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": results.Error})
 		return
