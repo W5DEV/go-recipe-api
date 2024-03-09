@@ -17,10 +17,10 @@ func NewRouteRecipeController(recipeController controllers.RecipeController) Rec
 func (pc *RecipeRouteController) RecipeRoute(rg *gin.RouterGroup) {
 
 	router := rg.Group("recipes")
+	router.GET("/", pc.recipeController.FindRecipes)
+	router.GET("/:recipeId", pc.recipeController.FindRecipeById)
 	router.Use(middleware.DeserializeUser())
 	router.POST("/", pc.recipeController.CreateRecipe)
-	router.GET("/", pc.recipeController.FindRecipes)
 	router.PUT("/:recipeId", pc.recipeController.UpdateRecipe)
-	router.GET("/:recipeId", pc.recipeController.FindRecipeById)
 	router.DELETE("/:recipeId", pc.recipeController.DeleteRecipe)
 }
