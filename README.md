@@ -4,10 +4,10 @@ The go-recipe-api is the final form of my Online Cookbook Backend, built to be h
 
 ## To-Do
 
-- [ ] Work out image handling function
-- [ ] Work out permanent email handling solution
-- [ ] Limit registrations to local (new users must verify before being able to login, which can only be done locally for now)
-- [ ] TBD
+- [ ] Work out image handling functionality - Dockerized image storage??
+- [ ] Work out permanent solution for handling emails
+- [ ] Create superuser ability to invite new users (send email with validation link to register, set password, name, etc)
+- [ ] Combine PostgreSQL configuration in docker to link setup (create if not exists)
 
 ## Getting Started
 
