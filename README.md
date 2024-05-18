@@ -13,10 +13,7 @@ The go-recipe-api is the final form of my Online Cookbook Backend, built to be h
 
 Setup a PostgreSQL database and add the appropriate environment variables to the `app.env` file. Follow the `app.env.example` file for guidance.
 
-Next, run the following commands to start the server:
-
-```bash
-From the root directory, run the following commands:
+Next, run the following commands from the root directory to start the server:
 
 ```bash
 go mod init github.com/W5DEV/go-recipe-api
